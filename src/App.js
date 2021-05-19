@@ -1,5 +1,6 @@
 import { Route, Switch } from "react-router";
 import "./App.css";
+import Header from "./components/header/header";
 import HomePage from "./pages/homepage/homepage";
 import Shop from "./pages/shop/shop";
 
@@ -15,6 +16,7 @@ const Error404 = (props) => {
 function App() {
     return (
         <div>
+            <Header />
             <Switch>
                 <Route exact path='/' component={HomePage} />
                 <Route exact path='/shop' component={Shop} />
