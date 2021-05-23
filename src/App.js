@@ -32,18 +32,15 @@ export default class App extends Component {
             if (userAuth) {
                 const userRef = await createUserProfileDocument(userAuth);
 
-                userRef.onSnapshot((snapShot) => {
-                    this.setState(
-                        {
-                            currentUser: { id: snapShot.id, ...snapShot.data() },
-                        },
-                        () => console.log("if-block", this.state) //remove this log later
-                    );
+                userRef.onSnapshot((snapShot) => { 
+                    this.setState({
+                        currentUser: { id: snapShot.id, ...snapShot.data() },
+                    });
+                    //put this console inside setState to view user details,() => console.log("if-block", this.state)
                 });
             } else {
-                this.setState({ currentUser: userAuth }, () =>
-                    console.log("else-block", this.state)
-                ); //remove this log later
+                this.setState({ currentUser: userAuth });
+                //put this console inside setState to view user details, () => console.log("else-block", this.state)
             }
         });
     }
