@@ -28,8 +28,8 @@ export default class SignIn extends Component {
     render() {
         return (
             <div className='sign-in'>
-                <h2>I Already Have an Account</h2>
-                <span>SignIn with your email and password</span>
+                <h2 className='title'>I Already Have an Account</h2>
+                <span>SignIn with your Email and Password</span>
                 <form onSubmit={this.handleSubmit}>
                     <FormInput
                         name='email'
@@ -48,8 +48,8 @@ export default class SignIn extends Component {
                         required
                     />
                     <div className='buttons'>
-                        <CustomButton type='submit'> Sign in </CustomButton>
-                        <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+                        <CustomButton type='submit'> Sign In </CustomButton>
+                        <CustomButton type='button' onClick={signInWithGoogle} isGoogleSignIn>
                             Sign in with Google
                         </CustomButton>
                     </div>
