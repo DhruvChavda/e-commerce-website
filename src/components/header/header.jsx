@@ -35,5 +35,6 @@ const Header = ({ currentUser }) => {
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
 });
+// can destructure state to {user} if needed
 
 export default connect(mapStateToProps)(Header);
