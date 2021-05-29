@@ -4,8 +4,10 @@ import { ReactComponent as Logo } from "../../assets/crown.svg";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase/firebase.utils";
 import { connect } from "react-redux";
+import CartIcon from "../cart-icon/cart-icon";
+import CartDD from "../cart-dropdown/cart-dropdown";
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, hidden }) => {
     return (
         <div className='header'>
             <Link className='logo-container' to='/' title='Home'>
@@ -27,14 +29,17 @@ const Header = ({ currentUser }) => {
                         SIGN IN/ UP
                     </Link>
                 )}
+                <CartIcon />
             </div>
+            {hidden ? null : <CartDD />}
         </div>
     );
 };
 
-const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser,
+// advanced destructuring is used
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+    currentUser,
+    hidden,
 });
-// can destructure state to {user} if needed
 
 export default connect(mapStateToProps)(Header);
