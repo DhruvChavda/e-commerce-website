@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Route, Switch } from "react-router";
 import "./App.css";
 import Header from "./components/header/header";
@@ -6,6 +7,7 @@ import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import HomePage from "./pages/homepage/homepage";
 import Shop from "./pages/shop/shop";
 import SignInUp from "./pages/sign-in-up/sign-in-up";
+import { setCurrentUser } from "./redux/user/user-actions";
 
 const Error404 = (props) => {
     // console.log(props);
@@ -16,35 +18,31 @@ const Error404 = (props) => {
     );
 };
 
-export default class App extends Component {
-    constructor() {
-        super();
+class App extends Component {
+    // NO NEED FOR CONSTRUCTOR
+    // constructor() {
+    //     super();
 
-        this.state = {
-            currentUser: null,
-        };
-    }
+    //     this.state = {
+    //         currentUser: null,
+    //     };
+    // }
 
     unsubscribeFromAuth = null;
 
     componentDidMount() {
+        const { setCurrentUser } = this.props;
+
         this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
             if (userAuth) {
                 const userRef = await createUserProfileDocument(userAuth);
 
                 userRef.onSnapshot((snapShot) => {
-                    this.setState(
-                        {
-                            currentUser: { id: snapShot.id, ...snapShot.data() },
-                        },
-                        () => console.log("if-block", this.state)
-                    );
+                    setCurrentUser({ id: snapShot.id, ...snapShot.data() });
                     //put this console inside setState to view user details,() => console.log("if-block", this.state)
                 });
             } else {
-                this.setState({ currentUser: userAuth }, () =>
-                    console.log("else-block", this.state)
-                );
+                setCurrentUser(userAuth);
                 //put this console inside setState to view user details, () => console.log("else-block", this.state)
             }
         });
@@ -57,7 +55,7 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <Header currentUser={this.state.currentUser} />
+                <Header />
                 <Switch>
                     <Route exact path='/' component={HomePage} />
                     <Route exact path='/shop' component={Shop} />
@@ -68,3 +66,9 @@ export default class App extends Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(null, mapDispatchToProps)(App);
