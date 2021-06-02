@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from "react-router";
 import "./App.css";
 import Header from "./components/header/header";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import Checkout from "./pages/checkout/checkout";
 import HomePage from "./pages/homepage/homepage";
 import Shop from "./pages/shop/shop";
 import SignInUp from "./pages/sign-in-up/sign-in-up";
@@ -11,7 +12,7 @@ import { setCurrentUser } from "./redux/user/user-actions";
 import { selectCurrentUser } from "./redux/user/user-selectors";
 
 const Error404 = (props) => {
-    // console.log(props);
+    console.log(props);
     return (
         <div>
             <h1>404 Not found</h1>
@@ -60,6 +61,7 @@ class App extends Component {
                 <Switch>
                     <Route exact path='/' component={HomePage} />
                     <Route exact path='/shop' component={Shop} />
+                    <Route exact path='/checkout' component={Checkout} />
                     <Route
                         exact
                         path='/signin'
