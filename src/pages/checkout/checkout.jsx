@@ -25,7 +25,7 @@ const Checkout = ({ cartItems, total }) => {
                 </div>
             </div>
             {cartItems.map((cartItem) => {
-                console.log(cartItem);
+                //console.log(cartItem);    //for debugging
                 return <CheckoutItem key={cartItem.id} cartItem={cartItem} />;
             })}
             <div className='total'>
