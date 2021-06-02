@@ -6,6 +6,9 @@ import { auth } from "../../firebase/firebase.utils";
 import { connect } from "react-redux";
 import CartIcon from "../cart-icon/cart-icon";
 import CartDD from "../cart-dropdown/cart-dropdown";
+import { selectCartHidden } from "../../redux/cart/cart-selectors";
+import { selectCurrentUser } from "../../redux/user/user-selectors";
+import { createStructuredSelector } from "reselect";
 
 const Header = ({ currentUser, hidden }) => {
     return (
@@ -36,10 +39,10 @@ const Header = ({ currentUser, hidden }) => {
     );
 };
 
-// advanced destructuring is used
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-    currentUser,
-    hidden,
+// createStructuredSelector doesnt require to pass state
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    hidden: selectCartHidden,
 });
 
 export default connect(mapStateToProps)(Header);

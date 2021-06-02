@@ -8,6 +8,7 @@ import HomePage from "./pages/homepage/homepage";
 import Shop from "./pages/shop/shop";
 import SignInUp from "./pages/sign-in-up/sign-in-up";
 import { setCurrentUser } from "./redux/user/user-actions";
+import { selectCurrentUser } from "./redux/user/user-selectors";
 
 const Error404 = (props) => {
     // console.log(props);
@@ -71,9 +72,12 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = ({ user }) => ({
-    currentUser: user.currentUser,
-});
+const mapStateToProps = (state) => {
+    // console.log("user wala prop"); //uncomment to check reselect
+    return {
+        currentUser: selectCurrentUser(state),
+    };
+};
 
 const mapDispatchToProps = (dispatch) => ({
     setCurrentUser: (user) => dispatch(setCurrentUser(user)),
