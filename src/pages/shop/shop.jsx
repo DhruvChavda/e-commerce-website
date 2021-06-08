@@ -9,7 +9,8 @@ import { Route } from "react-router";
 
 const Shop = ({ match }) => (
     <div className='shop-page'>
-        <Route path={`/shop/:collectionId`} component={Collection} />
+        <Route path={`${match.path}`} component={CollectionsOverview} />
+        <Route path={`${match.path}/:collectionId`} component={Collection} />
     </div>
 );
 
