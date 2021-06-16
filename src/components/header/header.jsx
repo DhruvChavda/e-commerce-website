@@ -1,7 +1,7 @@
 import React from "react";
-import "./header.scss";
+// import "./header.scss"; // styled using styled components
 import { ReactComponent as Logo } from "../../assets/crown.svg";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { auth } from "../../firebase/firebase.utils";
 import { connect } from "react-redux";
 import CartIcon from "../cart-icon/cart-icon";
@@ -9,39 +9,39 @@ import CartDD from "../cart-dropdown/cart-dropdown";
 import { selectCartHidden } from "../../redux/cart/cart-selectors";
 import { selectCurrentUser } from "../../redux/user/user-selectors";
 import { createStructuredSelector } from "reselect";
+import {
+    HeaderContainer,
+    LogoContainer,
+    OptionsContainer,
+    OptionLink,
+    OptionDiv,
+} from "./header-styles";
 
 const Header = ({ currentUser, hidden }) => {
     return (
-        <div className='header'>
-            <Link className='logo-container' to='/' title='Home'>
+        <HeaderContainer>
+            <LogoContainer className='logo-container' to='/' title='Home'>
                 <Logo className='logo' />
-            </Link>
-            <div className='options'>
-                <Link className='option' to='/'>
-                    HOME
-                </Link>
-                <Link className='option' to='/shop'>
-                    SHOP
-                </Link>
-                <Link className='option' to='/checkout'>
-                    CHECKOUT
-                </Link>
-                <Link className='option' to='/contact'>
-                    CONTACT
-                </Link>
+            </LogoContainer>
+            <OptionsContainer>
+                <OptionLink to='/'>HOME</OptionLink>
+                <OptionLink to='/shop'>SHOP</OptionLink>
+                <OptionLink to='/checkout'>CHECKOUT</OptionLink>
+                <OptionLink to='/contact'>CONTACT</OptionLink>
+                {/* Since OptionLink and OptionDiv have same styles we can use
+                OptionLink for div component with the use of `as` prop 
+                => <OptionLink as='div ...rest></OptionLink>
+                and vice versa as
+                => <OptionDiv as={Link} ...rest></OptionDiv> */}
                 {currentUser ? (
-                    <div className='option' onClick={() => auth.signOut()}>
-                        SIGN OUT
-                    </div>
+                    <OptionDiv onClick={() => auth.signOut()}>SIGN OUT</OptionDiv>
                 ) : (
-                    <Link className='option' to='/signin'>
-                        SIGN IN/ UP
-                    </Link>
+                    <OptionLink to='/signin'>SIGN IN/ UP</OptionLink>
                 )}
                 <CartIcon />
-            </div>
+            </OptionsContainer>
             {hidden ? null : <CartDD />}
-        </div>
+        </HeaderContainer>
     );
 };
 
