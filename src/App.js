@@ -3,11 +3,16 @@ import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router";
 import "./App.css";
 import Header from "./components/header/header";
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import {
+    addCollectionAndDocuments,
+    auth,
+    createUserProfileDocument,
+} from "./firebase/firebase.utils";
 import Checkout from "./pages/checkout/checkout";
 import HomePage from "./pages/homepage/homepage";
 import Shop from "./pages/shop/shop";
 import SignInUp from "./pages/sign-in-up/sign-in-up";
+import { selectCollectionsForPreview } from "./redux/shop/shop-selectors";
 import { setCurrentUser } from "./redux/user/user-actions";
 import { selectCurrentUser } from "./redux/user/user-selectors";
 
@@ -33,7 +38,7 @@ class App extends Component {
     unsubscribeFromAuth = null;
 
     componentDidMount() {
-        const { setCurrentUser } = this.props;
+        const { setCurrentUser, collectionsArray } = this.props;
 
         this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
             if (userAuth) {
@@ -47,6 +52,11 @@ class App extends Component {
                 setCurrentUser(userAuth);
                 //put this console inside setState to view user details, () => console.log("else-block", this.state)
             }
+
+            addCollectionAndDocuments(
+                "collections",
+                collectionsArray.map(({ title, items }) => ({ title, items }))
+            );
         });
     }
 
@@ -78,6 +88,7 @@ const mapStateToProps = (state) => {
     // console.log("user wala prop"); //uncomment to check reselect
     return {
         currentUser: selectCurrentUser(state),
+        collectionsArray: selectCollectionsForPreview(state),
     };
 };
 
